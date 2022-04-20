@@ -1,0 +1,99 @@
+
+-- 22.Write an SQL query to fetch worker names with salaries >= 50000 and <= 100000.
+
+select concat(FIRST_NAME, ' ', LAST_NAME) As Worker_Name, Salary
+from worker 
+where WORKER_ID in 
+(select WORKER_ID from worker 
+where Salary between 50000 AND 100000);
+
+-- 23.Write an SQL query to fetch the no. of workers for each department in the descending order.
+
+select DEPARTMENT, count(WORKER_ID) No_Of_Workers 
+from worker 
+group by DEPARTMENT 
+order by No_Of_Workers desc;
+
+-- 24.Write an SQL query to print details of the Workers who are also Managers.
+
+select distinct W.FIRST_NAME, T.WORKER_TITLE
+from Worker W
+inner join Title T
+on W.WORKER_ID = T.WORKER_REF_ID
+and T.WORKER_TITLE in ('Manager');
+ 
+ -- 25.Write an SQL query to fetch duplicate records having matching data in some fields of a table.
+ 
+ select WORKER_TITLE, AFFECTED_FROM, COUNT(*)
+ from Title
+ group by WORKER_TITLE, AFFECTED_FROM
+having count(*) > 1;
+
+-- 26.Write an SQL query to show only odd rows from a table.
+
+select * from Worker where mod (WORKER_ID, 2) <> 0;
+
+-- 27.Write an SQL query to show only even rows from a table.
+
+select * from Worker where mod (WORKER_ID, 2) = 0;
+
+-- 28.Write an SQL query to clone a new table from another table.
+
+create table WorkerClone LIKE Worker;
+
+-- 29.Write an SQL query to fetch intersecting records of two tables.
+
+select * from Worker
+inner join WorkerClone;
+
+-- 30.Write an SQL query to show records from one table that another table does not have.
+
+select * from Worker
+left join title;
+
+-- 31.Write an SQL query to show the current date and time.
+
+select now();
+
+-- 32.Write an SQL query to show the top n (say 10) records of a table.
+
+select * from Worker 
+order by Salary desc limit 10;
+
+-- 33.Write an SQL query to determine the nth (say n=5) highest salary from a table
+
+/*
+select Salary
+from Worker W1
+where n-1 = (
+ select count( distinct ( W5.Salary ) )
+ from Worker W5
+ where W5.Salary >= W1.Salary
+ );
+*/
+select Salary
+from Worker W1
+where 5-1 = (
+ select count( distinct ( W5.Salary ) )
+ from Worker W5
+ where W5.Salary >= W1.Salary
+ );
+ 
+ -- 34.Write an SQL query to determine the 5th highest salary without
+ 
+ 
+ 
+ 
+ 
+ 
+ -- 35.Write an SQL query to fetch the list of employees with the same salary.
+
+select distinct W.WORKER_ID, W.FIRST_NAME, W.salary 
+from Worker W, Worker W1 
+where W.salary = W1.salary 
+and W.WORKER_ID != W1.WORKER_ID;
+ 
+ -- 36.Write an SQL query to show the second highest salary from a table.
+ 
+ select max(Salary) from Worker 
+where Salary not in (Select max(Salary) from Worker);
