@@ -115,5 +115,4 @@ select count(*)
 from worker
 where DEPARTMENT = 'Admin';
 
--- 22.Write an SQL query to fetch worker names with salaries >= 50000 and <= 100000.
 
